@@ -49,3 +49,4 @@ toggleIndicatorHighlight= (className,currentPos)=>{
   })
   indicator.children[currentPos].classList.add(className)
 }
+toggleIndicatorHighlight('indicator_isActive',0)
