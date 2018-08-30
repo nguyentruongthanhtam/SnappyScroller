@@ -51,8 +51,3 @@ body{
   opacity: 1 !important;
   transition: 0.5s all ease;
 }
-#snappy-scroller-indicator span:hover{
-  opacity: 1;
-  transition: 0.5s all ease;
-
-}

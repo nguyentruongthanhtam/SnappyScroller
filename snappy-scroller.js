@@ -5,17 +5,18 @@ let positionArray = [];
 const indicator = document.querySelector('#snappy-scroller-indicator');
 const container = document.querySelector('.snappy-scroller-wrapper');
 
-for(let i=0; i<container.childElementCount ;++i)
+for(let i=0; i<container.childElementCount ;i++)
 {
   topArray.push(container.children[i]);
   positionArray.push(container.children[i].offsetTop);
+
   let newElement = document.createElement('span')
+  newElement.innerHTML =  topArray[i].getAttribute('id');
   newElement.addEventListener('click', () => {
     topArray[i].scrollIntoView({ 
       behavior: 'smooth' 
     })
   })
-  newElement.innerHTML =  topArray[i].getAttribute('id');
   indicator.appendChild(newElement);
 }
 // indicator.children[0].classList.add('indicator_isActive');
@@ -36,17 +37,19 @@ for(let i=0; i<container.childElementCount ;++i)
 //   pageNumber++
 // })
 
-window.addEventListener('scroll',()=>{
+document.addEventListener('scroll',()=>{
   let winTop = document.documentElement.scrollTop;
   let currentPos = Math.floor(winTop / window.innerHeight);
   toggleIndicatorHighlight('indicator_isActive',currentPos)
 })
-
 toggleIndicatorHighlight= (className,currentPos)=>{
-  indicator.childNodes.forEach((i)=>{
-    if(i.classList)
-      i.classList.remove(className)
+  indicator.childNodes.forEach((c)=>{
+    if(c.classList)
+    {
+      c.classList.remove(className)
+    }
   })
   indicator.children[currentPos].classList.add(className)
 }
+
 toggleIndicatorHighlight('indicator_isActive',0)
