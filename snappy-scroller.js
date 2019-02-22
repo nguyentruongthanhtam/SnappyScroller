@@ -1,55 +1,65 @@
-let topArray =  [];
-let pageNumber = 1;
-const pageNumbers = topArray.length;
-let positionArray = [];
-const indicator = document.querySelector('#snappy-scroller-indicator');
+let positionArray =  [];
+// The container of the scrolling views
 const container = document.querySelector('.snappy-scroller-wrapper');
+// Indicator element initiation 
+let indicator = document.createElement('div');
+indicator.id = 'snappy-scroller-indicator';
+// Add idicator to document body
+document.body.appendChild(indicator);
 
-for(let i=0; i<container.childElementCount ;i++)
+// Loop through the child elements of the container then add their IDs into
+// the section array to create an indicator section with your assigned section IDS. 
+for(let i=0 ; i < container.childElementCount ; i++)
 {
-  topArray.push(container.children[i]);
-  positionArray.push(container.children[i].offsetTop);
+  positionArray.push(container.children[i]);
+  // create a new a tag 
+  let newElement = document.createElement('span');
+  // Put element id into the a tag
+  newElement.innerHTML = positionArray[i].getAttribute('id');
+  // Put an anchor of the element into the a tag
+  newElement.href = "#" + positionArray[i].getAttribute('id');
 
-  let newElement = document.createElement('span')
-  newElement.innerHTML =  topArray[i].getAttribute('id');
   newElement.addEventListener('click', () => {
-    topArray[i].scrollIntoView({ 
+    positionArray[i].scrollIntoView({ 
       behavior: 'smooth' 
     })
   })
+  // add the a tag into the indicator
   indicator.appendChild(newElement);
 }
-// indicator.children[0].classList.add('indicator_isActive');
-// document.querySelector('#btn').addEventListener('click',()=>{
-//   if(pageNumber >= 4)
-//     {
-//       pageNumber = 0
-//       indicator.children[3].classList.remove('indicator_isActive');
-//     }
-//   else
-//     {
-//       indicator.children[pageNumber-1].classList.remove('indicator_isActive');
-//     }
-//   topArray[pageNumber].scrollIntoView({ 
-//     behavior: 'smooth' 
-//   })
-//   indicator.children[pageNumber].classList.add('indicator_isActive');
-//   pageNumber++
-// })
 
-document.addEventListener('scroll',()=>{
-  let winTop = document.documentElement.scrollTop;
-  let currentPos = Math.floor(winTop / window.innerHeight);
-  toggleIndicatorHighlight('indicator_isActive',currentPos)
-})
-toggleIndicatorHighlight= (className,currentPos)=>{
-  indicator.childNodes.forEach((c)=>{
-    if(c.classList)
-    {
-      c.classList.remove(className)
-    }
+// Highlight the indicator when that section is in view
+function toggleIndicatorHighlight(currentPosition)
+{
+  // add class indicator_isActive to the element aquivalent to the section in view
+  const isActive = 'isActive';
+  // remove active class of the other element
+  indicator.childNodes.forEach(function(child)
+  {
+    if(child.classList.contains(isActive))
+      child.classList.remove(isActive)
   })
-  indicator.children[currentPos].classList.add(className)
+  // add isActive class to the current highlight
+  indicator.children[currentPosition].classList.add(isActive)
 }
+// how big is the offset threshold when the section is in view (in percentage)
+// By default 25% is set
+//  can be change by adding data-threshold attribute in .snappy-scroller-wrapper
+threshold = container.dataset.threshold ? container.dataset.threshold : "25" ;
+// scroll event trigger change of indications
+let last_known_scroll_position = 0;
+const offset = window.innerHeight * (threshold / 100); // offset from the top position before the indication get highlighted
+// underscore debounce reduces the constant of scroll events make the site more responsive
+window.addEventListener('scroll',_.debounce(function(e){
+  e.preventDefault()
 
-toggleIndicatorHighlight('indicator_isActive',0)
+  // the position of the container when scrolling
+  last_known_scroll_position = document.documentElement.scrollTop;
+
+  // Calculate which section is in view to highlight the indicator
+  let currentPos = Math.floor((last_known_scroll_position + offset) / window.innerHeight);
+  toggleIndicatorHighlight(currentPos)
+}
+,100 // level of debounce 
+,{'leading':false,'trailing':true})) // update the scroll event when the scroll (trailing) finishes.
+

@@ -5,16 +5,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>SnappyScroller.js</title>
-  <script src="snappy-scroller.js" defer></script>
   <link rel="stylesheet" type="text/css" href="snappy-scroller.css">
 </head>
 <body>
-    <div class="snappy-scroller-wrapper">
-      <div id="section-1">Full Page Effect with Smooth Scrolling</div>
-      <div id="section-2">Responsive highlight indicator</div>
-      <div id="section-3">compatible with most of browsers (NOT IE/EDGE)</div>
-      <div id="section-4"><a href="https://github.com/nguyentruongthanhtam/SnappyScroller" style="color: white">Check it on Github</a></div>
-    </div>
-    <div id="snappy-scroller-indicator"> </div>
+  <div class="snappy-scroller-wrapper" data-threshold="10">
+    <div id="section-1">Full Page Effect with Smooth Scrolling</div>
+    <div id="section-2">Responsive highlight indicator</div>
+    <div id="section-3">compatible with most of browsers (NOT IE/EDGE)</div>
+    <div id="section-4"><a href="https://github.com/nguyentruongthanhtam/SnappyScroller" style="color: white">Check it on Github</a></div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
+  <script src="snappy-scroller.js"></script>
 </body>
 </html>
+<style>
+.snappy-scroller-wrapper #section-1 {
+  background-color: #5ad;
+}
+.snappy-scroller-wrapper #section-2 {
+  background-color: #7d7;
+}
+.snappy-scroller-wrapper #section-3 {
+  background-color: #f4a;
+}
+.snappy-scroller-wrapper #section-4 {
+  background-color: #cb3;
+}
+* {
+  box-sizing: content-box;
+  padding: 0;
+  margin: 0;
+}
+body{
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+</style>
