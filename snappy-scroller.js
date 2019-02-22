@@ -49,7 +49,7 @@ threshold = container.dataset.threshold ? container.dataset.threshold : "25" ;
 // scroll event trigger change of indications
 let last_known_scroll_position = 0;
 const offset = window.innerHeight * (threshold / 100); // offset from the top position before the indication get highlighted
-// underscore debounce reduces the constant of scroll events make the site more responsive
+// lodash debounce reduces the constant of scroll events make the site more responsive
 window.addEventListener('scroll',_.debounce(function(e){
   e.preventDefault()
 
